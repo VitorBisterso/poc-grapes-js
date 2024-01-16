@@ -3,11 +3,12 @@ import { Editor } from 'grapesjs';
 
 import Button from '@/components/button';
 import Card from '@/components/card';
+import WholePage from '@/components/wholePage';
 
 export default function ReactComponentsPlugin(editor: Editor) {
   const { Blocks, Components } = editor;
 
-  const addComponent = ({ type, component, props }: any) => {
+  const addComponent = ({ type, component, props, shouldAdd = true }: any) => {
     Components.addType(type, {
       extend: 'react-component',
       model: {
@@ -28,11 +29,12 @@ export default function ReactComponentsPlugin(editor: Editor) {
       isComponent: (el) => el.tagName === type.toUpperCase()
     });
 
-    Blocks.add(type, {
-      label: type,
-      category: 'Custom components',
-      content: { type }
-    });
+    if (shouldAdd)
+      Blocks.add(type, {
+        label: type,
+        category: 'Custom components',
+        content: { type }
+      });
   };
 
   addComponent({
@@ -57,9 +59,17 @@ export default function ReactComponentsPlugin(editor: Editor) {
       ]
     }
   });
+
   addComponent({
     type: 'Card',
     component: Card,
     props: {}
+  });
+
+  addComponent({
+    type: 'WholePage',
+    component: WholePage,
+    props: {},
+    shouldAdd: false,
   });
 };

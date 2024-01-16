@@ -1,5 +1,5 @@
-import ReactDOM from 'react-dom';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { Editor } from 'grapesjs';
 
 export default function BaseReactComponentsPlugin(editor: Editor) {
