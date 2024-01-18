@@ -1,0 +1,1 @@
+export const EDITOR_CONFIGS_FILE = './data/editor-configs.txt'

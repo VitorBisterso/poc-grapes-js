@@ -16,6 +16,7 @@ import customCodePlugin from 'grapesjs-custom-code'
 
 import BaseReactComponentsPlugin from '@/grapesjs/plugins/base-react-component';
 import ReactComponentsPlugin from '@/grapesjs/plugins/react-components';
+import { saveFile } from '@/utils/files';
 
 import 'grapesjs/dist/css/grapes.min.css';
 
@@ -37,7 +38,12 @@ export default function DefaultEditor() {
         grapesjs={grapesjs}
         options={{
           height: '90vh',
-          storageManager: false,
+          storageManager: {
+            type: 'local',
+            autosave: true,
+            autoload: true,
+            stepsBeforeSave: 1,
+          }
         }}
         onEditor={onEditor}
         plugins={[
@@ -56,23 +62,22 @@ export default function DefaultEditor() {
         ]}
       />
       <button
-        onClick={() =>  
-          console.log({
-            html: editor?.getHtml(),
-            css: editor?.getCss(),
-            components: editor?.getComponents(),
-            data: editor?.getProjectData(),
-          })
+        onClick={() => {
+            console.log({
+              html: editor?.getHtml(),
+              css: editor?.getCss(),
+              // components: editor?.getComponents(),
+              // data: editor?.getProjectData(),
+            })
+            const data = {
+              html: editor?.getHtml(),
+              css: editor?.getCss(),
+            }
+            saveFile(data)
+          }
         }
       >
         SALVAR
-      </button>
-      <button
-        onClick={() =>  
-          editor?.setComponents(`<WholePage />`)
-        }
-      >
-        RENDERIZAR
       </button>
     </>
   );

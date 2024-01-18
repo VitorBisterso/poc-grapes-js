@@ -1,9 +1,7 @@
 import React from 'react';
 import { Editor } from 'grapesjs';
 
-import Button from '@/components/button';
-import Card from '@/components/card';
-import WholePage from '@/components/wholePage';
+import * as AllComponents from '@/components'
 
 export default function ReactComponentsPlugin(editor: Editor) {
   const { Blocks, Components } = editor;
@@ -38,18 +36,18 @@ export default function ReactComponentsPlugin(editor: Editor) {
   };
 
   addComponent({
-    type: 'Button',
-    component: Button,
+    type: 'CustomButton',
+    component: AllComponents.Button,
     props: {
       attributes: {
-        title: 'Default button title',
+        text: 'Default button text',
         testId: 'some-test-id'
       },
       traits: [
         {
           type: 'string',
-          label: 'Title',
-          name: 'title',
+          label: 'Text',
+          name: 'text',
         },
         {
           type: 'string',
@@ -62,14 +60,20 @@ export default function ReactComponentsPlugin(editor: Editor) {
 
   addComponent({
     type: 'Card',
-    component: Card,
+    component: AllComponents.Card,
     props: {}
   });
 
   addComponent({
     type: 'WholePage',
-    component: WholePage,
+    component: AllComponents.WholePage,
     props: {},
     shouldAdd: false,
   });
 };
+
+export const COMPONENTS = [
+  'CustomButton',
+  'Card',
+  'WholePage'
+]
