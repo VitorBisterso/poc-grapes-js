@@ -25,9 +25,6 @@ export default function DefaultEditor() {
 
   function onEditor(newEditor: Editor) {
     console.log('Editor loaded', { newEditor });
-    newEditor.setComponents(`
-      <WholePage />
-    `)
 
     setEditor(newEditor);
   };
@@ -66,8 +63,6 @@ export default function DefaultEditor() {
             console.log({
               html: editor?.getHtml(),
               css: editor?.getCss(),
-              // components: editor?.getComponents(),
-              // data: editor?.getProjectData(),
             })
             const data = {
               html: editor?.getHtml(),

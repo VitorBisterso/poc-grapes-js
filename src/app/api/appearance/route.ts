@@ -1,4 +1,4 @@
 export async function GET(request: Request) {
-   const response = {"html":"<body id=\"ic1p\"><CustomButton text=\"Custom Button\" testId=\"some-test-id\" id=\"ikfm\"></CustomButton><Card></Card><div id=\"iizv\">Um padrão</div></body>","css":"* { box-sizing: border-box; } body {margin: 0;}#iizv{padding:10px;}"}
+   const response = {"html":"<body id=\"i2mq\"><Box><Card title=\"Other title\" description=\"Other description\" id=\"irir\"></Card></Box><Box></Box></body>","css":"* { box-sizing: border-box; } body {margin: 0;}"}
    return Response.json(response)
 }

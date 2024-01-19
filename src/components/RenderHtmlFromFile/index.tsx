@@ -7,12 +7,13 @@ import { COMPONENTS } from '@/grapesjs/plugins/react-components';
 import 'grapesjs/dist/css/grapes.min.css';
 
 const options = {
-  transform(reactNode, domNode, index) {
-    console.log({ reactNode, domNode, index })
-
+  transform(reactNode: React.ReactElement) {
     if (!reactNode) return;
 
-    const selectedComponentName = COMPONENTS.find(component => component.toUpperCase() === reactNode.type?.toUpperCase());
+    const selectedComponentName =
+      COMPONENTS.find(component =>
+        component.toUpperCase() === (reactNode.type as string)?.toUpperCase()
+      );
     if (selectedComponentName) {
       const component = AllComponents[selectedComponentName.toUpperCase()]
       return component(reactNode.props)
@@ -41,7 +42,7 @@ export function RenderHtmlFromFile() {
 
   return (
     <>
-      {data.html && parse(data.html, options)}
+      {data.html && parse(data.html, options as any)}
       <style>{data.css}</style>
     </>
   )

@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Editor } from 'grapesjs';
 
-import * as AllComponents from '@/components'
+import CustomButton from '@/components/button';
+import Wrapper from '@/components/wrapper';
+import Box from '@/components/box';
+import Card from '@/components/card';
+
+interface AddComponentParams {
+  type: string;
+  component: (props: any) => ReactNode;
+  props: Record<string, any>
+}
 
 export default function ReactComponentsPlugin(editor: Editor) {
   const { Blocks, Components } = editor;
 
-  const addComponent = ({ type, component, props, shouldAdd = true }: any) => {
+  const addComponent = ({ type, component, props }: AddComponentParams) => {
     Components.addType(type, {
       extend: 'react-component',
       model: {
@@ -15,29 +24,50 @@ export default function ReactComponentsPlugin(editor: Editor) {
           component
         }
       },
-      view: {
-        createReactEl(cmp: any, props: any) {
-          return React.createElement(
-            cmp,
-            props,
-            this.createReactChildWrap()
-          );
-        }
-      },
-      isComponent: (el) => el.tagName === type.toUpperCase()
+      isComponent: (el: HTMLElement) => el.tagName === type.toUpperCase()
     });
 
-    if (shouldAdd)
-      Blocks.add(type, {
-        label: type,
-        category: 'Custom components',
-        content: { type }
-      });
+    Blocks.add(type, {
+      label: type,
+      category: 'React Components',
+      content: { type }
+    });
   };
 
   addComponent({
+    type: 'Box',
+    component: (props) =>
+      React.createElement(Box, props),
+    props: {}
+  });
+
+  addComponent({
+    type: 'Card',
+    component: (props) =>
+      React.createElement(Card, props),
+    props: {
+      attributes: {
+        title: 'Title',
+        description: 'Description'
+      },
+      traits: [
+        {
+          type: 'string',
+          label: 'Title',
+          name: 'title',
+        },
+        {
+          type: 'string',
+          label: 'Description',
+          name: 'description',
+        },
+      ]
+    }
+  });
+
+  addComponent({
     type: 'CustomButton',
-    component: AllComponents.Button,
+    component: CustomButton,
     props: {
       attributes: {
         text: 'Default button text',
@@ -59,21 +89,16 @@ export default function ReactComponentsPlugin(editor: Editor) {
   });
 
   addComponent({
-    type: 'Card',
-    component: AllComponents.Card,
+    type: 'Wrapper',
+    component: (props) =>
+      React.createElement(Wrapper, props),
     props: {}
-  });
-
-  addComponent({
-    type: 'WholePage',
-    component: AllComponents.WholePage,
-    props: {},
-    shouldAdd: false,
   });
 };
 
 export const COMPONENTS = [
-  'CustomButton',
+  'Box',
   'Card',
-  'WholePage'
+  'CustomButton',
+  'Wrapper'
 ]
